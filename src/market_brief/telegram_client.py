@@ -1,0 +1,38 @@
+"""텔레그램 메시지 발송. .env의 TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID 사용."""
+import os
+
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_API_URL = "https://api.telegram.org/bot{token}/sendMessage"
+
+
+def send_telegram_message(text: str) -> bool:
+    """텔레그램으로 메시지를 전송한다."""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        print("오류: .env에 TELEGRAM_BOT_TOKEN과 TELEGRAM_CHAT_ID를 설정해주세요.")
+        return False
+
+    url = TELEGRAM_API_URL.format(token=TELEGRAM_BOT_TOKEN)
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": text,
+        "disable_web_page_preview": True,
+        "parse_mode": "HTML",
+    }
+    try:
+        resp = requests.post(url, json=payload, timeout=10)
+        resp.raise_for_status()
+        return True
+    except requests.RequestException as e:
+        print(f"전송 실패: {e}")
+        if getattr(e, "response", None) is not None:
+            try:
+                print("응답:", e.response.json())
+            except Exception:
+                print("응답 본문:", (e.response.text or "")[:500])
+        return False

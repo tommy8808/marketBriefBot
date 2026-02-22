@@ -1,0 +1,108 @@
+2026-02-22 18:30:57 [INFO] market_brief: 브리핑 시작
+2026-02-22 18:30:58 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 18:32:54 [INFO] market_brief: 브리핑 시작
+2026-02-22 18:32:55 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 18:44:55 [INFO] market_brief: 브리핑 시작
+2026-02-22 18:44:55 [DEBUG] market_brief.providers.fred: FRED API key not set, skipping DGS10
+2026-02-22 18:44:56 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for 10Y.US
+2026-02-22 18:44:57 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for CL.F
+2026-02-22 18:44:58 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for WTI.F
+2026-02-22 18:45:00 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for BZ.F
+2026-02-22 18:45:01 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for gold
+2026-02-22 18:45:02 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for wtioil
+2026-02-22 18:45:03 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for copper
+2026-02-22 18:45:04 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 18:45:05 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 18:45:06 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 18:45:08 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 18:45:09 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 18:45:10 [ERROR] market_brief: 텔레그램 발송 실패
+2026-02-22 18:46:48 [INFO] market_brief: 브리핑 시작
+2026-02-22 18:46:48 [DEBUG] market_brief.providers.fred: FRED API key not set, skipping DGS10
+2026-02-22 18:46:49 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for 10Y.US
+2026-02-22 18:46:50 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for CL.F
+2026-02-22 18:46:51 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for WTI.F
+2026-02-22 18:46:52 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for BZ.F
+2026-02-22 18:46:53 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for gold
+2026-02-22 18:46:55 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for wtioil
+2026-02-22 18:46:56 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for copper
+2026-02-22 18:46:57 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 18:46:58 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 18:46:59 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 18:47:00 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 18:47:02 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 18:47:03 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 18:53:21 [INFO] market_brief: 브리핑 시작
+2026-02-22 18:53:23 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for CL.F
+2026-02-22 18:53:24 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for WTI.F
+2026-02-22 18:53:25 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for BZ.F
+2026-02-22 18:53:26 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for gold
+2026-02-22 18:53:27 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for wtioil
+2026-02-22 18:53:28 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for copper
+2026-02-22 18:53:30 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 18:53:31 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 18:53:32 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 18:53:33 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 18:53:34 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 18:53:35 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 18:58:21 [INFO] market_brief: 브리핑 시작
+2026-02-22 18:58:28 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for CL.F
+2026-02-22 18:58:29 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for WTI.F
+2026-02-22 18:58:30 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for BZ.F
+2026-02-22 18:58:31 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for gold
+2026-02-22 18:58:32 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for wtioil
+2026-02-22 18:58:33 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for copper
+2026-02-22 18:58:35 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 18:58:36 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 18:58:37 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 18:58:38 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 18:58:39 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 18:58:40 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 18:59:46 [INFO] market_brief: 브리핑 시작
+2026-02-22 18:59:53 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^GC.F
+2026-02-22 18:59:55 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^CL.F
+2026-02-22 18:59:56 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^WTI.F
+2026-02-22 18:59:57 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for BZ.F
+2026-02-22 18:59:58 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for gold
+2026-02-22 18:59:59 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for wtioil
+2026-02-22 19:00:01 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for copper
+2026-02-22 19:00:02 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 19:00:03 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 19:00:04 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 19:00:05 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 19:00:07 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 19:00:08 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 19:02:20 [INFO] market_brief: 브리핑 시작
+2026-02-22 19:02:27 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for GC.F
+2026-02-22 19:02:28 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for CL.F
+2026-02-22 19:02:29 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for WTI.F
+2026-02-22 19:02:31 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for si.f
+2026-02-22 19:02:32 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 19:02:33 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 19:02:34 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 19:02:35 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 19:02:36 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 19:02:38 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 19:02:42 [INFO] market_brief: 브리핑 시작
+2026-02-22 19:02:49 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for GC.F
+2026-02-22 19:02:51 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for CL.F
+2026-02-22 19:02:52 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for WTI.F
+2026-02-22 19:02:53 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for si.f
+2026-02-22 19:02:54 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 19:02:55 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 19:02:56 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 19:02:57 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 19:02:59 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 19:03:00 [INFO] market_brief: 브리핑 발송 완료.
+2026-02-22 19:03:19 [INFO] market_brief: 브리핑 시작
+2026-02-22 19:03:21 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for GC.F
+2026-02-22 19:03:28 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for GC.F
+2026-02-22 19:03:29 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for CL.F
+2026-02-22 19:03:30 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for WTI.F
+2026-02-22 19:03:31 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for si.f
+2026-02-22 19:03:32 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^VIX
+2026-02-22 19:03:33 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BKX
+2026-02-22 19:03:35 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for USDKRW=X
+2026-02-22 19:03:36 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for JPYKRW=X
+2026-02-22 19:03:37 [DEBUG] market_brief.providers.stooq: stooq insufficient rows for ^BALDR
+2026-02-22 19:03:38 [INFO] market_brief: 브리핑 발송 완료.
