@@ -9,6 +9,7 @@ description = "Telegram notification bot & market brief"
 dependencies = [
     "python-dotenv>=1.0.0",
     "requests>=2.31.0",
+    "feedparser>=6.0.0"
 ]
 
 [tool.setuptools.packages.find]
