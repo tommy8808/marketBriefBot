@@ -1,6 +1,6 @@
 """
-항목별 provider: us10y, commodities, private_company, vix, adr_index, fx_rates, bdi, blogs.
-각 함수는 (section_name, List[BriefItem]) 반환. 실패 시 N/A 항목 반환.
+Item providers: us10y, commodities, private_company, vix, adr_index, fx_rates, bdi, blogs.
+Each returns (section_name, List[BriefItem]). On failure return N/A item.
 """
 import os
 import logging
@@ -27,7 +27,7 @@ def _item_with_change(
     link: str | None = None,
     fmt: str = "{:.2f}",
 ) -> BriefItem:
-    """숫자 value로 BriefItem 생성. prev 또는 state에서 변동률 계산은 main에서 적용."""
+    """Build BriefItem from numeric value; change_pct applied in main from state."""
     change = (value - prev) if prev is not None else None
     change_pct = (100.0 * (value - prev) / prev) if prev and prev != 0 else None
     return BriefItem(
@@ -45,7 +45,7 @@ def _apply_state_to_items(
     items: List[BriefItem],
     state: Dict | None,
 ) -> List[BriefItem]:
-    """state['items']에 전일값이 있으면 변동률을 채운다. numeric_value는 유지."""
+    """Fill change_pct from state['items'] when previous value exists. Keep numeric_value."""
     if not state or not items:
         return items
     cache = (state.get("items") or {})
@@ -72,13 +72,13 @@ def _apply_state_to_items(
 
 
 def fetch_us10y(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """US 10Y: FRED DGS10 우선, 없으면 Stooq."""
+    """US 10Y: FRED DGS10 first, else Stooq."""
     section = "us10y"
     # FRED
     latest, prev = fetch_fred_latest("DGS10")
     if latest is not None:
         return section, [_item_with_change("US 10Y", latest, prev, "us10y", link="https://fred.stlouisfed.org/series/DGS10")]
-    # Stooq: US 10Y 종목 코드 (예: 10Y 종목)
+    # Stooq fallback
     cur, prev_stooq = fetch_stooq_close("10Y.US")
     if cur is not None:
         return section, [_item_with_change("US 10Y", cur, prev_stooq, "us10y")]
@@ -86,7 +86,7 @@ def fetch_us10y(state: Dict | None) -> Tuple[str, List[BriefItem]]:
 
 
 def fetch_commodities(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """env에 심볼 리스트(쉼표 구분). Stooq로 각각 조회."""
+    """Symbol list from env (comma-separated). Fetch each via Stooq."""
     section = "commodities"
     syms = (os.getenv("BRIEF_COMMODITIES_SYMBOLS") or "CL.F,WTI.F,BZ.F").strip().split(",")
     syms = [s.strip() for s in syms if s.strip()]
@@ -102,7 +102,7 @@ def fetch_commodities(state: Dict | None) -> Tuple[str, List[BriefItem]]:
 
 
 def fetch_private_company(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """manual + 링크."""
+    """Manual value + optional link."""
     section = "private_company"
     link = get_manual_value("BRIEF_PRIVATE_COMPANY_LINK")
     item = get_manual_item("Private Company", "BRIEF_PRIVATE_COMPANY", link=link or None, state_key="private_company")
@@ -119,7 +119,7 @@ def fetch_vix(state: Dict | None) -> Tuple[str, List[BriefItem]]:
 
 
 def fetch_adr_index(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """ADR Index: manual 또는 Stooq 심볼."""
+    """ADR Index: manual value or Stooq symbol."""
     section = "adr_index"
     manual = get_manual_value("BRIEF_ADR_INDEX")
     if manual:
@@ -132,7 +132,7 @@ def fetch_adr_index(state: Dict | None) -> Tuple[str, List[BriefItem]]:
 
 
 def fetch_fx_rates(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """환율: Stooq 또는 manual."""
+    """FX rates: Stooq or manual."""
     section = "fx_rates"
     pairs = (os.getenv("BRIEF_FX_PAIRS") or "USDKRW=X,JPYKRW=X").strip().split(",")
     pairs = [p.strip() for p in pairs if p.strip()]
@@ -148,7 +148,7 @@ def fetch_fx_rates(state: Dict | None) -> Tuple[str, List[BriefItem]]:
 
 
 def fetch_bdi(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """BDI: Stooq 시도, 안 되면 manual."""
+    """BDI: try Stooq, else manual."""
     section = "bdi"
     cur, prev = fetch_stooq_close("^BALDR")
     if cur is not None:
@@ -157,11 +157,11 @@ def fetch_bdi(state: Dict | None) -> Tuple[str, List[BriefItem]]:
 
 
 def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """RSS로 여러 블로그의 새 글을 가져온다. 각 블로그당 최대 2개 + 일반 링크."""
+    """RSS: multiple blogs, max 2 entries per blog + extra static links."""
     section = "blogs"
     items: List[BriefItem] = []
 
-    # RSS 피드별 블로그: "블로그제목|RSS_URL,다른블로그|RSS_URL2" 형식 또는 그냥 URL
+    # Format: "BlogTitle|RSS_URL,..." or URL only
     urls_raw = os.getenv("BRIEF_BLOGS_RSS_URL") or ""
     blog_specs = [u.strip() for u in urls_raw.split(",") if u.strip()]
     for spec in blog_specs:
@@ -179,7 +179,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
             continue
         title_for_header = blog_title or feed_title or url
 
-        # 블로그 헤더 앞에 한 줄 공백(가독성용)
+        # Blank line before blog header
         items.append(
             BriefItem(
                 name="",
@@ -188,7 +188,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
                 state_key=None,
             )
         )
-        # 블로그 헤더
+        # Blog header
         items.append(
             BriefItem(
                 name=title_for_header[:80],
@@ -205,7 +205,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
                 state_key=None,
             )
         )
-        # 블로그 글들
+        # Blog entries
         for title, link in entries:
             items.append(
                 BriefItem(
@@ -216,7 +216,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
                 )
             )
 
-    # 추가 일반 링크 (RSS가 아닌 수동 링크): "제목|URL,제목2|URL2" 형식
+    # Extra static links: "Title|URL,..."
     extra_raw = os.getenv("BRIEF_BLOGS_EXTRA_LINKS") or ""
     extra_items: List[BriefItem] = []
     for part in [p.strip() for p in extra_raw.split(",") if p.strip()]:
@@ -235,7 +235,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
                 )
             )
         else:
-            # 제목 없이 URL만 준 경우: URL을 그대로 사용
+            # URL only (no title)
             link = part
             extra_items.append(
                 BriefItem(
@@ -247,7 +247,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
             )
 
     if extra_items:
-        # 일반 링크용 헤더 앞에도 한 줄 공백
+        # Blank line before extra links header
         items.append(
             BriefItem(
                 name="",
@@ -256,7 +256,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
                 state_key=None,
             )
         )
-        # 일반 링크용 헤더
+        # Extra links header
         items.append(
             BriefItem(
                 name="기타 링크",
@@ -280,7 +280,7 @@ def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
     return section, items if items else [NA]
 
 
-# 순서대로 실행할 항목별 fetcher
+# Section fetchers in order
 SECTION_FETCHERS = [
     fetch_us10y,
     fetch_commodities,
@@ -295,8 +295,8 @@ SECTION_FETCHERS = [
 
 def run_all_sections(state: Dict | None) -> Tuple[Dict[str, List[BriefItem]], Dict[str, float]]:
     """
-    모든 항목을 순서대로 수집. (sections, items_for_state) 반환.
-    items_for_state: state 저장용 { state_key: numeric_value }.
+    Run all section fetchers. Returns (sections, items_for_state).
+    items_for_state: { state_key: numeric_value } for next run.
     """
     sections = {}
     items_for_state = {}

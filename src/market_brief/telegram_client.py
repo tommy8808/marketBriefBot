@@ -1,4 +1,4 @@
-"""텔레그램 메시지 발송. .env의 TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID 사용."""
+"""Send Telegram messages. Uses TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID from .env."""
 import os
 
 import requests
@@ -12,7 +12,7 @@ TELEGRAM_API_URL = "https://api.telegram.org/bot{token}/sendMessage"
 
 
 def send_telegram_message(text: str, *, parse_mode: str | None = "HTML") -> bool:
-    """텔레그램으로 메시지를 전송한다. parse_mode=None이면 일반 텍스트로 전송."""
+    """Send text to Telegram. If parse_mode is None, send as plain text."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("오류: .env에 TELEGRAM_BOT_TOKEN과 TELEGRAM_CHAT_ID를 설정해주세요.")
         return False

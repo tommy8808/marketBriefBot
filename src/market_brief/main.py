@@ -1,5 +1,5 @@
 """
-브리핑 실행: 항목별 provider 수집 → formatter로 메시지 생성 → 상태 저장 → 텔레그램 발송.
+Run brief: collect from providers -> format -> save state -> send Telegram.
 """
 import logging
 import os
@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from datetime import date
 
-# src를 sys.path에 추가 (스크립트로 직접 실행 시 market_brief 패키지 인식)
+# Add src to sys.path when running script directly (so market_brief is importable)
 def _ensure_src_path():
     try:
         import market_brief  # noqa: F401
@@ -35,7 +35,7 @@ logger = logging.getLogger("market_brief")
 
 
 def _setup_logging() -> None:
-    """실행 로그를 data/log.txt에 남기도록 로깅을 설정한다. 이미 설정된 경우 건너뛴다."""
+    """Configure logging to data/log.txt. No-op if already configured."""
     if logger.handlers:
         return
     try:
@@ -59,7 +59,7 @@ def _setup_logging() -> None:
 
 
 def run() -> None:
-    """항목별 provider를 순서대로 모아 브리핑 메시지를 만들고 텔레그램으로 발송한다."""
+    """Collect from providers in order, build brief message, send Telegram, save state."""
     _setup_logging()
 
     try:

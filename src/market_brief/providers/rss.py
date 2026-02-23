@@ -1,4 +1,4 @@
-"""feedparser로 RSS에서 피드 제목/새 글을 가져온다."""
+"""Fetch feed title and entries from RSS via feedparser."""
 import logging
 from typing import List, Tuple
 import feedparser
@@ -8,8 +8,7 @@ logger = logging.getLogger("market_brief.providers.rss")
 
 def fetch_rss(feed_url: str, max_entries: int = 5) -> Tuple[str | None, List[Tuple[str, str]]]:
     """
-    RSS 피드에서 (피드 제목, (글제목, 링크) 리스트)를 반환.
-    실패 시 (None, []).
+    Return (feed_title, [(entry_title, link), ...]). On failure return (None, []).
     """
     try:
         parsed = feedparser.parse(feed_url)
@@ -22,7 +21,6 @@ def fetch_rss(feed_url: str, max_entries: int = 5) -> Tuple[str | None, List[Tup
         if isinstance(feed, dict):
             feed_title = (feed.get("title") or "").strip() or None
         else:
-            # feedparser는 feed가 FeedParserDict처럼 동작할 수 있음
             try:
                 feed_title = (getattr(feed, "title", None) or "").strip() or None
             except Exception:
@@ -42,8 +40,7 @@ def fetch_rss(feed_url: str, max_entries: int = 5) -> Tuple[str | None, List[Tup
 
 def fetch_rss_entries(feed_url: str, max_entries: int = 5) -> List[Tuple[str, str]]:
     """
-    RSS 피드에서 최대 max_entries개의 (제목, 링크) 튜플 리스트 반환.
-    실패 시 빈 리스트.
+    Return up to max_entries (title, link) tuples. On failure return [].
     """
     _, entries = fetch_rss(feed_url, max_entries=max_entries)
     return entries
