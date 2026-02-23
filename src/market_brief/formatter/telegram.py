@@ -11,6 +11,13 @@ def _format_item(item: BriefItem) -> str:
     """한 항목을 '이름: 값 (변동률) 링크' 형태로. 링크는 HTML <a href="...">클릭 이동</a>."""
     name = _escape_html(item.name)
     value = _escape_html(item.value)
+    # 헤더/구분선처럼 value 없이 한 줄만 출력하고 싶은 경우
+    if (not item.value) and (not item.link) and (item.change_pct is None) and (item.change is None):
+        return name
+    # 구분선 전용
+    if item.name.strip("-").strip() == "" and not item.value and not item.link:
+        return name
+
     part = f"{name}: {value}"
     if item.change_pct is not None:
         sign = "+" if item.change_pct >= 0 else ""

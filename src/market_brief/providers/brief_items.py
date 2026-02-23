@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from market_brief.providers.base import BriefItem
 from market_brief.providers.fred import fetch_fred_latest
 from market_brief.providers.stooq import fetch_stooq_close
-from market_brief.providers.rss import fetch_rss_entries
+from market_brief.providers.rss import fetch_rss
 from market_brief.providers.manual import get_manual_item, get_manual_value
 
 load_dotenv()
@@ -157,17 +157,126 @@ def fetch_bdi(state: Dict | None) -> Tuple[str, List[BriefItem]]:
 
 
 def fetch_blogs(state: Dict | None) -> Tuple[str, List[BriefItem]]:
-    """RSS로 블로그 새 글 n개."""
+    """RSS로 여러 블로그의 새 글을 가져온다. 각 블로그당 최대 2개 + 일반 링크."""
     section = "blogs"
-    url = os.getenv("BRIEF_BLOGS_RSS_URL") or ""
-    n = int(os.getenv("BRIEF_BLOGS_RSS_COUNT") or "5")
-    if not url.strip():
-        return section, [BriefItem(name="(RSS URL 없음)", value="N/A", link=None)]
-    entries = fetch_rss_entries(url.strip(), max_entries=n)
-    items = [
-        BriefItem(name=e[0][:80], value="글 보기", link=e[1], state_key=None)
-        for e in entries
-    ]
+    items: List[BriefItem] = []
+
+    # RSS 피드별 블로그: "블로그제목|RSS_URL,다른블로그|RSS_URL2" 형식 또는 그냥 URL
+    urls_raw = os.getenv("BRIEF_BLOGS_RSS_URL") or ""
+    blog_specs = [u.strip() for u in urls_raw.split(",") if u.strip()]
+    for spec in blog_specs:
+        if "|" in spec:
+            blog_title, url = spec.split("|", 1)
+            blog_title = (blog_title or "").strip()
+        else:
+            url = spec
+            blog_title = ""
+        url = (url or "").strip()
+        if not url:
+            continue
+        feed_title, entries = fetch_rss(url, max_entries=2)
+        if not entries:
+            continue
+        title_for_header = blog_title or feed_title or url
+
+        # 블로그 헤더 앞에 한 줄 공백(가독성용)
+        items.append(
+            BriefItem(
+                name="",
+                value="",
+                link=None,
+                state_key=None,
+            )
+        )
+        # 블로그 헤더
+        items.append(
+            BriefItem(
+                name=title_for_header[:80],
+                value="",
+                link=None,
+                state_key=None,
+            )
+        )
+        items.append(
+            BriefItem(
+                name="--------------------",
+                value="",
+                link=None,
+                state_key=None,
+            )
+        )
+        # 블로그 글들
+        for title, link in entries:
+            items.append(
+                BriefItem(
+                    name=title[:80],
+                    value="글 보기",
+                    link=link,
+                    state_key=None,
+                )
+            )
+
+    # 추가 일반 링크 (RSS가 아닌 수동 링크): "제목|URL,제목2|URL2" 형식
+    extra_raw = os.getenv("BRIEF_BLOGS_EXTRA_LINKS") or ""
+    extra_items: List[BriefItem] = []
+    for part in [p.strip() for p in extra_raw.split(",") if p.strip()]:
+        if "|" in part:
+            title, link = part.split("|", 1)
+            title = (title or "").strip() or "링크"
+            link = (link or "").strip()
+            if not link:
+                continue
+            extra_items.append(
+                BriefItem(
+                    name=title[:80],
+                    value="링크 열기",
+                    link=link,
+                    state_key=None,
+                )
+            )
+        else:
+            # 제목 없이 URL만 준 경우: URL을 그대로 사용
+            link = part
+            extra_items.append(
+                BriefItem(
+                    name=link[:80],
+                    value="링크 열기",
+                    link=link,
+                    state_key=None,
+                )
+            )
+
+    if extra_items:
+        # 일반 링크용 헤더 앞에도 한 줄 공백
+        items.append(
+            BriefItem(
+                name="",
+                value="",
+                link=None,
+                state_key=None,
+            )
+        )
+        # 일반 링크용 헤더
+        items.append(
+            BriefItem(
+                name="기타 링크",
+                value="",
+                link=None,
+                state_key=None,
+            )
+        )
+        items.append(
+            BriefItem(
+                name="--------------------",
+                value="",
+                link=None,
+                state_key=None,
+            )
+        )
+        items.extend(extra_items)
+
+    if not items:
+        return section, [BriefItem(name="(RSS/링크 없음)", value="N/A", link=None)]
     return section, items if items else [NA]
 
 

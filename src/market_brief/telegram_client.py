@@ -11,8 +11,8 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 TELEGRAM_API_URL = "https://api.telegram.org/bot{token}/sendMessage"
 
 
-def send_telegram_message(text: str) -> bool:
-    """텔레그램으로 메시지를 전송한다."""
+def send_telegram_message(text: str, *, parse_mode: str | None = "HTML") -> bool:
+    """텔레그램으로 메시지를 전송한다. parse_mode=None이면 일반 텍스트로 전송."""
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         print("오류: .env에 TELEGRAM_BOT_TOKEN과 TELEGRAM_CHAT_ID를 설정해주세요.")
         return False
@@ -22,8 +22,9 @@ def send_telegram_message(text: str) -> bool:
         "chat_id": TELEGRAM_CHAT_ID,
         "text": text,
         "disable_web_page_preview": True,
-        "parse_mode": "HTML",
     }
+    if parse_mode is not None:
+        payload["parse_mode"] = parse_mode
     try:
         resp = requests.post(url, json=payload, timeout=10)
         resp.raise_for_status()

@@ -62,26 +62,32 @@ def run() -> None:
     """항목별 provider를 순서대로 모아 브리핑 메시지를 만들고 텔레그램으로 발송한다."""
     _setup_logging()
 
-    logger.info("브리핑 시작")
-    state = load_state()
-    sections, items_for_state = run_all_sections(state)
+    try:
+        logger.info("브리핑 시작")
+        state = load_state()
+        sections, items_for_state = run_all_sections(state)
 
-    data = BriefData(
-        date=date.today().isoformat(),
-        sections=sections,
-        meta={"items_state": items_for_state},
-    )
+        data = BriefData(
+            date=date.today().isoformat(),
+            sections=sections,
+            meta={"items_state": items_for_state},
+        )
 
-    message = format_brief_telegram(data)
-    if not send_telegram_message(message):
-        logger.error("텔레그램 발송 실패")
+        message = format_brief_telegram(data)
+        if not send_telegram_message(message):
+            logger.error("텔레그램 발송 실패")
+            sys.exit(1)
+
+        save_state({
+            "last_date": data.date,
+            "items": items_for_state,
+        })
+        logger.info("브리핑 발송 완료.")
+    except Exception as e:
+        logger.exception("브리핑 실행 중 예외 발생")
+        err_msg = f"⚠️ 브리핑 실행 오류\n\n{type(e).__name__}: {e}"
+        send_telegram_message(err_msg, parse_mode=None)
         sys.exit(1)
-
-    save_state({
-        "last_date": data.date,
-        "items": items_for_state,
-    })
-    logger.info("브리핑 발송 완료.")
 
 
 if __name__ == "__main__":
